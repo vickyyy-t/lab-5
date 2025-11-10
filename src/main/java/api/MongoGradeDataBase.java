@@ -251,6 +251,7 @@ public class MongoGradeDataBase implements GradeDataBase {
     //       Hint: Read the Grade API documentation for getMyTeam (link below) and refer to the above similar
     //             methods to help you write this code (copy-and-paste + edit as needed).
     //             https://www.postman.com/cloudy-astronaut-813156/csc207-grade-apis-demo/folder/isr2ymn/get-my-team
+
     public Team getMyTeam() {
         final OkHttpClient client = new OkHttpClient().newBuilder()
                 .build();
@@ -272,10 +273,11 @@ public class MongoGradeDataBase implements GradeDataBase {
                 for (int i = 0; i < membersArray.length(); i++) {
                     members[i] = membersArray.getString(i);
                 }
-                return Team.builder()
-                        .name(team.getString(NAME))
-                        .members(members)
-                        .build();
+
+                String name = team.getString("name");
+                Team myteam = new Team(name, members);
+
+                return myteam;
             }
             else {
                 throw new RuntimeException(responseBody.getString(MESSAGE));
@@ -284,10 +286,10 @@ public class MongoGradeDataBase implements GradeDataBase {
         catch (IOException | JSONException event) {
             throw new RuntimeException(event);
         }
+
+        // TODO Task 3b: Implement the logic to get the team information
+        // HINT 1: Look at the formTeam method to get an idea on how to parse the response
+        // HINT 2: You may find it useful to just initially print the contents of the JSON
+        //         then work on the details of how to parse it.
     }
 }
-
-// TODO Task 3b: Implement the logic to get the team information
-// HINT 1: Look at the formTeam method to get an idea on how to parse the response
-// HINT 2: You may find it useful to just initially print the contents of the JSON
-//         then work on the details of how to parse it.
